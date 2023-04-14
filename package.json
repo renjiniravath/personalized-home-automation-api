@@ -1,0 +1,23 @@
+{
+  "name": "preferences-console-api",
+  "version": "1.0.0",
+  "description": "REST API serving data to the home automation system and the console website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renjiniravath/personalizedHomeAutomation-api.git"
+  },
+  "author": "Renji Joseph Sabu renjiniravath@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/renjiniravath/personalizedHomeAutomation-api/issues"
+  },
+  "homepage": "https://github.com/renjiniravath/personalizedHomeAutomation-api#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongodb": "5.2"
+  }
+}
