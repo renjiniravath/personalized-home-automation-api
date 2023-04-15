@@ -2,9 +2,9 @@ const getDBConnection = require("../mongo");
 
 
 const getPreferencesOfUsers = async (users) => {
-
+    let client
     try {
-        const client = await getDBConnection()
+        client = await getDBConnection()
         const db = client.db('personalizedHomeAutomation')
 
         const collection = db.collection('preferences');
@@ -15,13 +15,14 @@ const getPreferencesOfUsers = async (users) => {
         return preferences || {};
 
     } catch (err) {
-        client.close();
+        if (client)
+            client.close();
         throw err;
     }
 }
 
 const addPreferencesOfUsers = async (preferences) => {
-
+    let client
     try {
         const client = await getDBConnection()
         const db = client.db('personalizedHomeAutomation')
@@ -32,8 +33,9 @@ const addPreferencesOfUsers = async (preferences) => {
         client.close()
         return result
 
-    } catch (err) {  
-        client.close();
+    } catch (err) {
+        if (client)  
+            client.close();
         throw err;
     }
 }

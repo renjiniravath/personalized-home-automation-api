@@ -2,7 +2,7 @@ const express = require('express')
 const { getPreferencesHandler, addPreferencesHandler } = require('./src/handlers/preferences');
 const { getAuthorizedUsersHandler, checkIfUserIsAuthorizedHandler } = require('./src/handlers/users');
 const { getOccupantsOfRoomHandler, userScanHandler, getRoomSettingsHandler } = require('./src/handlers/rooms');
-const { getAllRequestsHandler } = require('./src/handlers/request');
+const { getAllRequestsHandler, addRequestHandler } = require('./src/handlers/requests');
 const app = express()
 const port = 8080
 app.use(express.json());
@@ -18,10 +18,10 @@ app.get('/rooms/:room/occupants', getOccupantsOfRoomHandler) // return the occup
 app.put('/rooms/:room/users/:user/scan', userScanHandler) // mark a user in or out of a room and return the current occupants and settings of a room
 app.get('/rooms/:room/settings', getRoomSettingsHandler) // returns the current settings of a room
 
-app.get('/users/:user/request', getAllRequestsHandler)   // get all shared preference requests from or to a particular user
-app.post('/users/:users/request') // add a new request to another individual for a shared preferences setting
-app.put('/users/:users/request')  // update a request for a shared preference
-app.put('/users/:users/request/approve') // approve a pending request from another user
+app.get('/users/:user/requests', getAllRequestsHandler)   // get all shared preference requests from or to a particular user
+app.post('/users/:users/requests', addRequestHandler) // add a new request to another individual for a shared preferences setting
+app.put('/users/:users/requests')  // update a request for a shared preference
+app.put('/users/:users/requests/approve') // approve a pending request from another user
 
 app.listen(port, () => {
     console.log(`app listening on port ${port}`)

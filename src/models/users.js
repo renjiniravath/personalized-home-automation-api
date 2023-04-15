@@ -1,8 +1,9 @@
 const getDBConnection = require("../mongo");
 
 const getAuthorizedUsers = async () => {
+    let client
     try {
-        const client = await getDBConnection()
+        client = await getDBConnection()
         const db = client.db('personalizedHomeAutomation')
 
         const collection = db.collection('users');
@@ -11,14 +12,16 @@ const getAuthorizedUsers = async () => {
         client.close();
         return authorizedUsers.usernames;
     } catch (err) {
-        client.close();
+        if (client)
+            client.close();
         throw err;
     }
 }
 
 const checkIfUserIsAuthorized = async (user) => {
+    let client
     try {
-        const client = await getDBConnection()
+        client = await getDBConnection()
         const db = client.db('personalizedHomeAutomation')
 
         const collection = db.collection('users');
@@ -27,7 +30,8 @@ const checkIfUserIsAuthorized = async (user) => {
         client.close();
         return !!result;
     } catch (err) {
-        client.close();
+        if (client)
+            client.close();
         throw err;
     }
 }

@@ -1,8 +1,9 @@
 const getDBConnection = require("../mongo");
 
 const getOccupantsOfRoom = async (room) => {
+    let client
     try {
-        const client = await getDBConnection()
+        client = await getDBConnection()
         const db = client.db('personalizedHomeAutomation')
 
         const collection = db.collection('rooms');
@@ -11,14 +12,16 @@ const getOccupantsOfRoom = async (room) => {
         client.close();
         return roomData.occupants;
     } catch (err) {
-        client.close();
+        if (client)
+            client.close();
         throw err;
     }
 }
 
 const addOccupantToRoom = async (room, user) => {
+    let client
     try {
-        const client = await getDBConnection()
+        client = await getDBConnection()
         const db = client.db('personalizedHomeAutomation')
 
         const collection = db.collection('rooms');
@@ -35,14 +38,16 @@ const addOccupantToRoom = async (room, user) => {
         client.close()
         return result.value.occupants
     } catch (err) {
-        client.close();
+        if (client)
+            client.close();
         throw err;
     }
 }
 
 const removeOccupantFromRoom = async (room, user) => {
+    let client
     try {
-        const client = await getDBConnection()
+        client = await getDBConnection()
         const db = client.db('personalizedHomeAutomation')
 
         const collection = db.collection('rooms');
@@ -59,14 +64,16 @@ const removeOccupantFromRoom = async (room, user) => {
         client.close()
         return result.value.occupants
     } catch (err) {
-        client.close();
+        if (client)
+            client.close();
         throw err;
     }
 }
 
 const checkIfOccupantInRoom = async (room, user) => {
+    let client
     try {
-        const client = await getDBConnection()
+        client = await getDBConnection()
         const db = client.db('personalizedHomeAutomation')
 
         const collection = db.collection('rooms');
@@ -76,7 +83,8 @@ const checkIfOccupantInRoom = async (room, user) => {
         return !!result
 
     } catch (err) {
-        client.close();
+        if (client)
+            client.close();
         throw err;
     }
 }
