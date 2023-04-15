@@ -6,9 +6,9 @@ const app = express()
 const port = 8080
 app.use(express.json());
 
-app.get('/preferences/:users', getPreferencesHandler) // get an single user or group of users' preferences, return default preferences as fallback
-app.post('/preferences/:users', addPreferencesHandler) // add an individual user's preferences, not for shared preferences
-app.put('/preferences/:users')  // update an individual user's preferences, not for shared preferences
+app.get('/users/:users/preferences', getPreferencesHandler) // get an single user or group of users' preferences, return default preferences as fallback
+app.post('/users/:users/preferences', addPreferencesHandler) // add an individual user's preferences, not for shared preferences
+app.put('/users/:users/preferences')  // update an individual user's preferences, not for shared preferences
 
 app.get('/users', getAuthorizedUsersHandler) // get a list of all authorized users
 app.get('/users/:user/check', checkIfUserIsAuthorizedHandler) // check if a user is authorized, check on ID scan and console log in
