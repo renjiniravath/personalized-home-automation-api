@@ -1,5 +1,5 @@
 const express = require('express')
-const { getPreferencesHandler, addPreferencesHandler } = require('./src/handlers/preferences');
+const { getPreferencesHandler, addPreferencesHandler, updatePreferencesHandler } = require('./src/handlers/preferences');
 const { getAuthorizedUsersHandler, checkIfUserIsAuthorizedHandler } = require('./src/handlers/users');
 const { getOccupantsOfRoomHandler, userScanHandler, getRoomSettingsHandler } = require('./src/handlers/rooms');
 const { getAllRequestsHandler, addRequestHandler } = require('./src/handlers/requests');
@@ -9,7 +9,7 @@ app.use(express.json());
 
 app.get('/users/:users/preferences', getPreferencesHandler) // get an single user or group of users' preferences, return default preferences as fallback
 app.post('/users/:users/preferences', addPreferencesHandler) // add an individual user's preferences, not for shared preferences
-app.put('/users/:users/preferences')  // update an individual user's preferences, not for shared preferences
+app.put('/users/:users/preferences', updatePreferencesHandler)  // update an individual user's preferences, not for shared preferences
 
 app.get('/users', getAuthorizedUsersHandler) // get a list of all authorized users
 app.get('/users/:user/check', checkIfUserIsAuthorizedHandler) // check if a user is authorized, check on ID scan and console log in

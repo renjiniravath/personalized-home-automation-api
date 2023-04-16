@@ -1,4 +1,4 @@
-const { getPreferencesOfUsers, addPreferencesOfUsers } = require("../models/preferences")
+const { getPreferencesOfUsers, addPreferencesOfUsers, updatePreferencesOfUsers } = require("../models/preferences")
 
 const getPreferencesController = (users) => {
     return getPreferencesOfUsers(users)
@@ -9,4 +9,8 @@ const addPreferencesController = (users, preferences) => {
     return addPreferencesOfUsers(preferences)
 }
 
-module.exports = { getPreferencesController, addPreferencesController }
+const updatePreferencesController = (users, preferences) => {
+    return updatePreferencesOfUsers(users, preferences)
+}
+
+module.exports = { getPreferencesController, addPreferencesController, updatePreferencesController }
