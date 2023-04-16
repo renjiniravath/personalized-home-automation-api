@@ -1,4 +1,4 @@
-const { getAllRequestsOfUser, addRequest } = require("../models/requests")
+const { getAllRequestsOfUser, addRequest, updateRequest } = require("../models/requests")
 
 const getAllRequestsController = (user) => {
     return getAllRequestsOfUser(user)
@@ -9,4 +9,8 @@ const addRequestController = (users, request) => {
     return addRequest(request)
 }
 
-module.exports = {getAllRequestsController, addRequestController}
+const updateRequestController = (users, requester, request) => {
+    return updateRequest(users, requester, request)
+}
+
+module.exports = {getAllRequestsController, addRequestController, updateRequestController}

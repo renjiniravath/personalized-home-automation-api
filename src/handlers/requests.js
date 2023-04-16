@@ -1,4 +1,4 @@
-const { getAllRequestsController, addRequestController} = require("../controllers/requests")
+const { getAllRequestsController, addRequestController, updateRequestController} = require("../controllers/requests")
 
 const getAllRequestsHandler = async (req, res) => {
     try {
@@ -27,4 +27,23 @@ const addRequestHandler = async (req, res) => {
     }
 }
 
-module.exports = { getAllRequestsHandler, addRequestHandler}
+const updateRequestHandler = async (req, res) => {
+    try {
+        if (!req.body.requester) {
+            console.log("Requester should be specified")
+            res.status(400).send({
+                errorMessage: "Requester should be specified"
+            })
+            return
+        }
+        const response = await updateRequestController(req.params.users, req.body.requester, req.body.preferences)
+        res.status(200).send(response)
+    } catch(exception) {
+        console.log("Unexpected error occured ", exception)
+        res.status(500).send({
+            errorMessage: "Unexpected error occured. Check server logs"
+        })
+    }
+}
+
+module.exports = { getAllRequestsHandler, addRequestHandler, updateRequestHandler}

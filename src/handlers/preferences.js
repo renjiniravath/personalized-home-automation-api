@@ -33,7 +33,7 @@ const updatePreferencesHandler = async (req, res) => {
     try {
         if (req.params.users.includes('-')){
             console.log("This API is only used to update individual user's preference")
-            res.status(500).send({
+            res.status(400).send({
                 errorMessage: "This API is only used to update individual user's preference"
             })
             return

@@ -27,8 +27,10 @@ const addRequest = async (request) => {
     try {
         client = await getDBConnection()
         const db = client.db('personalizedHomeAutomation')
-
         const collection = db.collection('requests');
+
+        const requesters = [request.requesters];
+        request.requesters = requesters;
         const result = await collection.insertOne(request)
 
         client.close()
@@ -41,4 +43,49 @@ const addRequest = async (request) => {
     }
 }
 
-module.exports = {getAllRequestsOfUser, addRequest}
+const updateRequest = async (users, requester, request) => {
+    let client
+    try {
+        client = await getDBConnection()
+        const db = client.db('personalizedHomeAutomation')
+        const collection = db.collection('requests');
+
+        validFields = ['temperatureInF', 'fanSpeed', 'humidity', 'lightBrightness', 'lightColor'] 
+        const preferences = {};
+        for ([key, val] of Object.entries(request)) {
+            if (validFields.includes(key))
+                preferences['preferences.'+key] = val
+        }
+        
+        await collection.updateOne(
+            {_id: users},
+            {
+                $set:  {'requesters': [requester]}
+            },
+            {
+                returnDocument: 'after'
+            }, 
+        )
+
+        await collection.updateOne(
+            {_id: users},
+            {
+                $set:  preferences
+            },
+            {
+                returnDocument: 'after'
+            }, 
+        )
+        const result = await collection.findOne({ _id: users })
+
+        client.close()
+        return result
+
+    } catch (err) {  
+        if(client)
+            client.close();
+        throw err;
+    }    
+}
+
+module.exports = {getAllRequestsOfUser, addRequest, updateRequest}
