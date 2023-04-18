@@ -17,6 +17,10 @@ const getOccupantsOfRoomHandler = async (req, res) => {
 const userScanHandler = async (req, res) => {
     try {
         const response = await userScanController(req.params.room, req.params.user)
+        if(!response.authorized){
+            res.status(401).send({ errorMessage: "User is not authorized" })
+            return
+        }
         res.status(200).send(response)
     } catch(exception) {
         console.log("Unexpected error occured ", exception)
