@@ -1,4 +1,5 @@
 const express = require('express')
+var cors = require('cors')
 const { getPreferencesHandler, addPreferencesHandler, updatePreferencesHandler } = require('./src/handlers/preferences');
 const { getAuthorizedUsersHandler, checkIfUserIsAuthorizedHandler } = require('./src/handlers/users');
 const { getOccupantsOfRoomHandler, userScanHandler, getRoomSettingsHandler } = require('./src/handlers/rooms');
@@ -6,6 +7,7 @@ const { getAllRequestsHandler, addRequestHandler, updateRequestHandler, approveR
 const app = express()
 const port = 8080
 app.use(express.json());
+app.use(cors())
 
 app.get('/users/:users/preferences', getPreferencesHandler) // get an single user or group of users' preferences, return default preferences as fallback
 app.post('/users/:users/preferences', addPreferencesHandler) // add an individual user's preferences, not for shared preferences
