@@ -88,4 +88,70 @@ const updateRequest = async (users, requester, request) => {
     }    
 }
 
-module.exports = {getAllRequestsOfUser, addRequest, updateRequest}
+const getRequest = async(user) => {
+    let client
+    try {
+        client = await getDBConnection()
+        const db = client.db('personalizedHomeAutomation')
+
+        const collection = db.collection('requests');
+        let result = await collection.findOne(
+            {_id: user},
+        );
+        client.close();
+        return result
+
+    } catch (err) { 
+        if(client) 
+            client.close();
+        throw err;
+    }
+
+}
+
+const removeRequest = async(user) => {
+    let client
+    try {
+        client = await getDBConnection()
+        const db = client.db('personalizedHomeAutomation')
+        const collection = db.collection('requests');  
+         
+        const result = await collection.deleteOne(
+            {_id: user}
+        )
+        client.close()
+        return result
+
+    } catch (err) {  
+        if(client)
+            client.close();
+        throw err;
+    }
+}
+
+const updateRequesters = async(users, request) => {
+    let client
+    try {
+        client = await getDBConnection()
+        const db = client.db('personalizedHomeAutomation')
+        const collection = db.collection('requests');  
+         
+        const result = await collection.findOneAndUpdate(
+            {_id: users},
+            {
+                $set:  {'requesters': request}
+            },
+            {
+                returnDocument: 'after'
+            }, 
+        )
+        client.close()
+        return result
+
+    } catch (err) {  
+        if(client)
+            client.close();
+        throw err;
+    }
+}
+module.exports = {getAllRequestsOfUser, addRequest, updateRequest, getRequest, removeRequest, updateRequesters}

@@ -21,15 +21,28 @@ const getPreferencesOfUsers = async (users) => {
     }
 }
 
-const addPreferencesOfUsers = async (preferences) => {
+const addPreferencesOfUsers = async (preferences, updateExistingPreferences = false) => {
     let client
     try {
         const client = await getDBConnection()
         const db = client.db('personalizedHomeAutomation')
 
         const collection = db.collection('preferences')
-        const result = await collection.insertOne(preferences)
-
+        let result
+        if (updateExistingPreferences) {
+            result = await collection.findOneAndUpdate(
+                {_id: preferences._id},
+                {
+                    $set:  preferences
+                },
+                {
+                    upsert: true
+                }
+            )
+        }
+        else {
+            result = await collection.insertOne(preferences)
+        }
         client.close()
         return result
 

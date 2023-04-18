@@ -2,7 +2,7 @@ const express = require('express')
 const { getPreferencesHandler, addPreferencesHandler, updatePreferencesHandler } = require('./src/handlers/preferences');
 const { getAuthorizedUsersHandler, checkIfUserIsAuthorizedHandler } = require('./src/handlers/users');
 const { getOccupantsOfRoomHandler, userScanHandler, getRoomSettingsHandler } = require('./src/handlers/rooms');
-const { getAllRequestsHandler, addRequestHandler, updateRequestHandler } = require('./src/handlers/requests');
+const { getAllRequestsHandler, addRequestHandler, updateRequestHandler, approveRequestHandler } = require('./src/handlers/requests');
 const app = express()
 const port = 8080
 app.use(express.json());
@@ -21,7 +21,7 @@ app.get('/rooms/:room/settings', getRoomSettingsHandler) // returns the current 
 app.get('/users/:user/requests', getAllRequestsHandler)   // get all shared preference requests from or to a particular user
 app.post('/users/:users/requests', addRequestHandler) // add a new request to another individual for a shared preferences setting
 app.put('/users/:users/requests', updateRequestHandler)  // update a request for a shared preference
-app.put('/users/:users/requests/approve') // approve a pending request from another user
+app.put('/users/:users/requests/approve', approveRequestHandler) // approve a pending request from another user
 
 app.listen(port, () => {
     console.log(`app listening on port ${port}`)
