@@ -1,10 +1,24 @@
-const { getPreferencesController, addPreferencesController, updatePreferencesController } = require("../controllers/preferences")
+const { getPreferencesController, addPreferencesController, updatePreferencesController, getAllSharedPreferencesOfUserController } = require("../controllers/preferences")
 
 const getPreferencesHandler = async (req, res) => {
     try {
         const preferences = await getPreferencesController(req.params.users)
         res.status(200).send({
             preferences
+        })
+    } catch(exception) {
+        console.log("Unexpected error occured ", exception)
+        res.status(500).send({
+            errorMessage: "Unexpected error occured. Check server logs"
+        })
+    }
+}
+
+const getAllSharedPreferencesOfUserHandler = async (req, res) => {
+    try {
+        const sharedPreferences = await getAllSharedPreferencesOfUserController(req.params.user)
+        res.status(200).send({
+            sharedPreferences
         })
     } catch(exception) {
         console.log("Unexpected error occured ", exception)
@@ -48,4 +62,4 @@ const updatePreferencesHandler = async (req, res) => {
     }
 }
 
-module.exports = { getPreferencesHandler, addPreferencesHandler, updatePreferencesHandler }
+module.exports = { getPreferencesHandler, addPreferencesHandler, updatePreferencesHandler, getAllSharedPreferencesOfUserHandler }
