@@ -26,7 +26,6 @@ const getAllSharedPreferencesOfUser = async (user) => {
     try {
         client = await getDBConnection()
         const db = client.db('personalizedHomeAutomation')
-        console.log(user)
         const collection = db.collection('preferences');
         let sharedPreferences = []
          await collection.find({ $and: [ {_id: { $regex: `.*${user}.*` }},{ _id: { $ne: user }}] }).forEach((preference) => {
