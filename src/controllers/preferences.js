@@ -13,8 +13,8 @@ const addPreferencesController = (users, preferences) => {
     return addPreferencesOfUsers(preferences)
 }
 
-const updatePreferencesController = (users, preferences) => {
-    return updatePreferencesOfUsers(users, preferences)
+const updatePreferencesController = (user, preferences) => {
+    return updatePreferencesOfUsers(user, preferences)
 }
 
 module.exports = { getPreferencesController, addPreferencesController, updatePreferencesController, getAllSharedPreferencesOfUserController }

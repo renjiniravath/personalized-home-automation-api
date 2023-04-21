@@ -74,7 +74,7 @@ const addPreferencesOfUsers = async (preferences, updateExistingPreferences = fa
     }
 }
 
-const updatePreferencesOfUsers = async (users, preferences) => {
+const updatePreferencesOfUsers = async (user, preferences) => {
     let client
     try {
         const client = await getDBConnection()
@@ -87,9 +87,8 @@ const updatePreferencesOfUsers = async (users, preferences) => {
             if (validFields.includes(key))
                 update[key] = val
         }
-
         const result = await collection.findOneAndUpdate(
-            { _id: users },
+            { _id: user },
             {
                 $set: update
             },

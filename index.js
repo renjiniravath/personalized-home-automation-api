@@ -12,7 +12,7 @@ app.use(cors())
 app.get('/users/:users/preferences', getPreferencesHandler) // get an single user or group of users' preferences, return default preferences as fallback
 app.get('/users/:user/preferences/shared', getAllSharedPreferencesOfUserHandler) // get all shared preferences of a user
 app.post('/users/:users/preferences', addPreferencesHandler) // add an individual user's preferences, not for shared preferences
-app.put('/users/:users/preferences', updatePreferencesHandler)  // update an individual user's preferences, not for shared preferences
+app.put('/users/:user/preferences', updatePreferencesHandler)  // update an individual user's preferences, not for shared preferences
 
 app.get('/users', getAuthorizedUsersHandler) // get a list of all authorized users
 app.get('/users/:user/check', checkIfUserIsAuthorizedHandler) // check if a user is authorized, check on ID scan and console log in
