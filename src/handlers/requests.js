@@ -48,7 +48,7 @@ const updateRequestHandler = async (req, res) => {
 
 const approveRequestHandler = async (req, res) => {
     try {
-        if (!(req.params.users.includes(req.body.requesters))) {
+        if (!(req.params.users.includes(req.body.requester))) {
             console.log("User not authorized")
             res.status(401).send({
                 errorMessage: "User not authorized"
@@ -62,12 +62,12 @@ const approveRequestHandler = async (req, res) => {
             })
         else if (response === 3)
             res.status(200).send({
-                message: `This request was marked as approved by ${req.body.requesters}`
+                message: `This request was marked as approved by ${req.body.requester}`
             })
         else {
-            console.log(`This request was already marked as approved by ${req.body.requesters}`)
+            console.log(`This request was already marked as approved by ${req.body.requester}`)
             res.status(400).send({
-                errorMessage: `This request was already marked as approved by ${req.body.requesters}`
+                errorMessage: `This request was already marked as approved by ${req.body.requester}`
             })
         }
     } catch(exception) {

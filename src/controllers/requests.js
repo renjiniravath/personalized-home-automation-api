@@ -26,9 +26,9 @@ const approveRequestController = async (users, request) => {
 
     requestRecord = await getRequest(users) 
     existingRequesters = requestRecord.requesters
-    updatedRequestersString = [...existingRequesters,request.requesters].sort().join('-')
+    updatedRequestersString = [...existingRequesters, request.requester].sort().join('-')
 
-    if(existingRequesters.includes(request.requesters))
+    if(existingRequesters.includes(request.requester))
         return 1
     else if (updatedRequestersString ===  users) {
         await removeRequest(users)
@@ -37,7 +37,7 @@ const approveRequestController = async (users, request) => {
         return 2
     }
     else {
-        updatedRequesters = [...existingRequesters, request.requesters]
+        updatedRequesters = [...existingRequesters, request.requester]
         await updateRequesters(users,updatedRequesters)
         return 3
     }
