@@ -5,9 +5,17 @@ const getAllRequestsController = (user) => {
     return getAllRequestsOfUser(user)
 }
 
-const addRequestController = (users, request) => {
-    request = {"_id": users, ...request}
-    return addRequest(request)
+const addRequestController = async (users, request) => {
+    const requestRecord = await getRequest(users)
+    if(requestRecord) {
+        const requester = request.requester;
+        return updateRequest(users, requester, request.preferences)  
+    } else {
+        request = {"_id": users, ...request}
+        request.requesters = [ request.requester ]
+        delete request.requester
+        return addRequest(request)
+    }
 }
 
 const updateRequestController = (users, requester, request) => {

@@ -29,8 +29,6 @@ const addRequest = async (request) => {
         const db = client.db('personalizedHomeAutomation')
         const collection = db.collection('requests');
 
-        const requesters = [request.requesters];
-        request.requesters = requesters;
         const result = await collection.insertOne(request)
 
         client.close()
@@ -51,12 +49,11 @@ const updateRequest = async (users, requester, request) => {
         const collection = db.collection('requests');
 
         validFields = ['temperatureInF', 'fanSpeed', 'humidity', 'lightBrightness', 'lightColor'] 
-        const preferences = {};
+        let preferences = {};
         for ([key, val] of Object.entries(request)) {
             if (validFields.includes(key))
-                preferences['preferences.'+key] = val
+                preferences[key] = val
         }
-        
         await collection.updateOne(
             {_id: users},
             {
@@ -70,7 +67,7 @@ const updateRequest = async (users, requester, request) => {
         await collection.updateOne(
             {_id: users},
             {
-                $set:  preferences
+                $set:  {preferences}
             },
             {
                 returnDocument: 'after'
