@@ -10,7 +10,7 @@ const getOccupantsOfRoom = async (room) => {
         const roomData = await collection.findOne({ _id: room });
 
         client.close();
-        return roomData.occupants;
+        return roomData.occupants.sort();
     } catch (err) {
         if (client)
             client.close();

@@ -4,14 +4,17 @@ const { getPreferencesHandler, addPreferencesHandler, updatePreferencesHandler, 
 const { getAuthorizedUsersHandler, checkIfUserIsAuthorizedHandler } = require('./src/handlers/users');
 const { getOccupantsOfRoomHandler, userScanHandler, getRoomSettingsHandler } = require('./src/handlers/rooms');
 const { getAllRequestsHandler, addRequestHandler, updateRequestHandler, approveRequestHandler } = require('./src/handlers/requests');
+const { createConnection } = require('./src/mqtt');
 const app = express()
 const port = 8080
 app.use(express.json());
 app.use(cors())
 
+createConnection()
+
 app.get('/users/:users/preferences', getPreferencesHandler) // get an single user or group of users' preferences, return default preferences as fallback
 app.get('/users/:user/preferences/shared', getAllSharedPreferencesOfUserHandler) // get all shared preferences of a user
-app.post('/users/:users/preferences', addPreferencesHandler) // add an individual user's preferences, not for shared preferences
+app.post('/users/:user/preferences', addPreferencesHandler) // add an individual user's preferences, not for shared preferences
 app.put('/users/:user/preferences', updatePreferencesHandler)  // update an individual user's preferences, not for shared preferences
 
 app.get('/users', getAuthorizedUsersHandler) // get a list of all authorized users

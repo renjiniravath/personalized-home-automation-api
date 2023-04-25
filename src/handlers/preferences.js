@@ -30,10 +30,9 @@ const getAllSharedPreferencesOfUserHandler = async (req, res) => {
 
 const addPreferencesHandler = async (req, res) => {
     try {
-        console.log(req.body)
-        await addPreferencesController(req.params.users, req.body)
+        await addPreferencesController(req.params.user, req.body)
         res.status(200).send({
-            message: `${req.params.users}'s preferences were succesfully saved`
+            message: `${req.params.user}'s preferences were succesfully saved`
         })
     } catch(exception) {
         console.log("Unexpected error occured ", exception)

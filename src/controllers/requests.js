@@ -1,5 +1,6 @@
 const { addPreferencesOfUsers } = require("../models/preferences")
 const { getAllRequestsOfUser, addRequest, updateRequest, getRequest, removeRequest, updateRequesters} = require("../models/requests")
+const { getConnection } = require("../mqtt")
 
 const getAllRequestsController = (user) => {
     return getAllRequestsOfUser(user)
@@ -24,20 +25,24 @@ const updateRequestController = (users, requester, request) => {
 
 const approveRequestController = async (users, request) => {
 
-    requestRecord = await getRequest(users) 
-    existingRequesters = requestRecord.requesters
-    updatedRequestersString = [...existingRequesters, request.requester].sort().join('-')
+    const requestRecord = await getRequest(users) 
+    const existingRequesters = requestRecord.requesters
+    const updatedRequestersString = [...existingRequesters, request.requester].sort().join('-')
 
     if(existingRequesters.includes(request.requester))
         return 1
     else if (updatedRequestersString ===  users) {
         await removeRequest(users)
-        preferences = {"_id":users ,...requestRecord.preferences}
+        const preferences = {"_id":users ,...requestRecord.preferences}
         await addPreferencesOfUsers(preferences, true)
+        const mqttClient = getConnection()
+        mqttClient.publish("preferences/"+users, "updated", {qos: 2}, (err) => {
+            if(err) throw err
+        })
         return 2
     }
     else {
-        updatedRequesters = [...existingRequesters, request.requester]
+        const updatedRequesters = [...existingRequesters, request.requester]
         await updateRequesters(users,updatedRequesters)
         return 3
     }
