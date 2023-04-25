@@ -1,12 +1,13 @@
 const express = require('express')
 var cors = require('cors')
+require('dotenv').config();
 const { getPreferencesHandler, addPreferencesHandler, updatePreferencesHandler, getAllSharedPreferencesOfUserHandler } = require('./src/handlers/preferences');
 const { getAuthorizedUsersHandler, checkIfUserIsAuthorizedHandler } = require('./src/handlers/users');
 const { getOccupantsOfRoomHandler, userScanHandler, getRoomSettingsHandler } = require('./src/handlers/rooms');
 const { getAllRequestsHandler, addRequestHandler, updateRequestHandler, approveRequestHandler } = require('./src/handlers/requests');
 const { createConnection } = require('./src/mqtt');
 const app = express()
-const port = 8080
+const port = process.env.SERVER_PORT
 app.use(express.json());
 app.use(cors())
 

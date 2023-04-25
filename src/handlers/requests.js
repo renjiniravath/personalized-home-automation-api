@@ -17,7 +17,7 @@ const addRequestHandler = async (req, res) => {
     try {
         await addRequestController(req.params.users, req.body)
         res.status(200).send({
-            message: `${req.params.users}'s shared preferences were succesfully saved`
+            message: `A new shared preference request was created for ${req.params.users}`
         })
     } catch(exception) {
         console.log("Unexpected error occured ", exception)
@@ -36,8 +36,10 @@ const updateRequestHandler = async (req, res) => {
             })
             return
         }
-        const response = await updateRequestController(req.params.users, req.body.requester, req.body.preferences)
-        res.status(200).send(response)
+        await updateRequestController(req.params.users, req.body.requester, req.body.preferences)
+        res.status(200).send({
+            message: `The shared preference request was updated for ${req.params.users}`
+        })
     } catch(exception) {
         console.log("Unexpected error occured ", exception)
         res.status(500).send({

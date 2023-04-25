@@ -1,6 +1,6 @@
 const MongoClient = require('mongodb').MongoClient
 
-const url = 'mongodb://127.0.0.1:27017'
+const url = process.env.MONGO_DB_URL
 
 const getDBConnection = async () => {
     const client = await MongoClient.connect(url)

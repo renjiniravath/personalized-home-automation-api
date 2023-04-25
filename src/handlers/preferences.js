@@ -32,7 +32,7 @@ const addPreferencesHandler = async (req, res) => {
     try {
         await addPreferencesController(req.params.user, req.body)
         res.status(200).send({
-            message: `${req.params.user}'s preferences were succesfully saved`
+            message: `${req.params.user}'s preferences were successfully saved`
         })
     } catch(exception) {
         console.log("Unexpected error occured ", exception)
@@ -51,8 +51,10 @@ const updatePreferencesHandler = async (req, res) => {
             })
             return
         }
-        const response = await updatePreferencesController(req.params.user, req.body)
-        res.status(200).send(response)
+        await updatePreferencesController(req.params.user, req.body)
+        res.status(200).send({
+            message: `${req.params.user}'s preferences were successfully updated`
+        })
     } catch(exception) {
         console.log("Unexpected error occured ", exception)
         res.status(500).send({

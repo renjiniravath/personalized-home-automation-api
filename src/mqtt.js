@@ -3,7 +3,7 @@ const mqtt = require('mqtt')
 let client
 
 const createConnection = () => {
-    client = mqtt.connect('mqtt://192.168.0.191:1883', {clientId:"home-automation-api"})
+    client = mqtt.connect(process.env.MQTT_BROKER_URL, {clientId: process.env.MQTT_CLIENT_ID})
 }
 
 const getConnection = () => {
